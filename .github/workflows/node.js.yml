@@ -24,6 +24,8 @@ jobs:
       run: cp index.js nodejs/
     - name: Change to nodejs directory
       run: cd nodejs
+    - name: Install npm
+      run: apt install npm
     - name: npm init
       run: npm init
     - name: Change to home
