@@ -18,6 +18,17 @@ jobs:
     - uses: actions/checkout@v3
     - name: Use Node.js
       uses: actions/setup-node@v3
-    - run: ip addr
-    - run: node node.js
+    - name: Make a Directory
+      run: mkdir nodejs
+    - name: Copy the index.js file to node.js directory
+      run: cp index.js nodejs/
+    - name: Change to nodejs directory
+      run: cd nodejs
+    - name: npm init
+      run: npm init
+    - name: Change to home
+      run: cd -
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag nodejs:$(date +%s)
   
