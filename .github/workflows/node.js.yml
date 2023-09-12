@@ -28,8 +28,8 @@ jobs:
       run: cp package.json nodejs/
     - name: Change to nodejs directory
       run: cd nodejs
-    - name: Install npm
-      run: sudo apt install npm
+    - name: Present Working Directory
+      run: pwd
     - uses: actions/checkout@v3
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag nodejs:$(date +%s)
