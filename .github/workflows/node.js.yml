@@ -20,6 +20,8 @@ jobs:
       uses: actions/setup-node@v3
     - name: Make a Directory
       run: mkdir nodejs
+    - name: Present Working Directory
+      run: pwd
     - name: Copy the index.js file to node.js directory
       run: cp index.js nodejs/
     - name: Copy package.json file to node-js directory
@@ -28,8 +30,6 @@ jobs:
       run: cd nodejs
     - name: Install npm
       run: sudo apt install npm
-    - name: Change to home
-      run: cd .
     - uses: actions/checkout@v3
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag nodejs:$(date +%s)
