@@ -22,12 +22,12 @@ jobs:
       run: mkdir nodejs
     - name: Copy the index.js file to node.js directory
       run: cp index.js nodejs/
+    - name: Copy package.json file to node-js directory
+      run: cp package.json nodejs/
     - name: Change to nodejs directory
       run: cd nodejs
     - name: Install npm
       run: sudo apt install npm
-    - name: npm init
-      run: npm init
     - name: Change to home
       run: cd -
     - uses: actions/checkout@v3
