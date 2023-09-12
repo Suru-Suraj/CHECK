@@ -25,7 +25,7 @@ jobs:
     - name: Change to nodejs directory
       run: cd nodejs
     - name: Install npm
-      run: apt install npm
+      run: sudo apt install npm
     - name: npm init
       run: npm init
     - name: Change to home
