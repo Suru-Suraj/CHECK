@@ -45,7 +45,7 @@ jobs:
       run: |
         SSH_KEY_PATH=~/.ssh/capstone.pub
         IP=$(terraform output public_ip)
-        sudo ssh -i $SSH_KEY_PATH ubuntu@$IP
+        ssh -i $SSH_KEY_PATH ubuntu@$IP
       shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
       env:
         TERRAFORM_CLI_PATH: /home/runner/work/_temp/297cea66-04c3-48ce-b7b1-063fed930f02
