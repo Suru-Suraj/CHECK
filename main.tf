@@ -125,7 +125,7 @@ resource "aws_security_group" "CAPSTONE" {
 }
 resource "aws_key_pair" "CAPSTONE" {
   key_name = "CAPSTONE"
-  public_key = file("~/.ssh/id_rsa.pub")
+  public_key = file("~/.ssh/capstone.pub")
 }
 resource "aws_instance" "CAPSTONE" {
   ami           = "ami-053b0d53c279acc90"
