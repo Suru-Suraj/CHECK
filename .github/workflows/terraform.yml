@@ -23,6 +23,8 @@ jobs:
         ssh-keygen -t rsa -b 4096 -f ~/.ssh/capstone
     - name: Variable Creation
       run: read -r KEY < ~/.ssh/capstone.pub
+    - name: Print the variable KEY
+      run: echo $KEY
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v3
       with:
@@ -36,13 +38,10 @@ jobs:
     - name: Terraform Apply
       run: terraform apply -input=false -auto-approve 
     - name: Terraform Output(private)
-      run: terraform output private_ip
+      run: IP=$(terraform output public_ip)
     - name: Terraform Output(public)
-      run: IP=terraform output public_ip
-    - uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: $IP
-        username: ubuntu
-        key: $KEY
+      run: terraform output public_ip
+    - name: SSH
+      run: sudo ssh -i KEY ubuntu@$IP
     - name: Terraform Destroy
       run: terraform destroy -auto-approve
