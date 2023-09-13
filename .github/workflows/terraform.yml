@@ -21,6 +21,11 @@ jobs:
     - name: Create SSH key
       run: |
         ssh-keygen -t rsa -b 4096 -f ~/.ssh/capstone
+    - name: Create secret
+      uses: actions/create-secret@v1
+      with:
+        secret_name: SSH_PRIVATE_KEY
+        secret_file: ~/.ssh/capstone.pub
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v3
       with:
