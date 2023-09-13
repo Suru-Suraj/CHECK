@@ -21,6 +21,8 @@ jobs:
     - name: Create SSH key
       run: |
         ssh-keygen -t rsa -b 4096 -f ~/.ssh/capstone
+    - name: Update the Runner
+      run: sudo github-runner update-runner
     - name: Create secret
       uses: actions/create-secret@v1
       with:
