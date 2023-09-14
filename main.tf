@@ -1,145 +1,30 @@
-resource "aws_vpc" "CAPSTONE" {
-  cidr_block       = "10.0.0.0/16"
-  instance_tenancy = "default"
-
-  tags = {
-    Name = "CAPSTONE"
-  }
-}
-resource "aws_subnet" "PUBLIC-1" {
-  vpc_id     = aws_vpc.CAPSTONE.id
-  cidr_block = "10.0.1.0/24"
-  availability_zone = "us-east-1a"
-  tags = {
-    Name = "PUBLIC-1"
-  }
-}
-resource "aws_subnet" "PUBLIC-2" {
-  vpc_id     = aws_vpc.CAPSTONE.id
-  cidr_block = "10.0.2.0/24"
-  availability_zone = "us-east-1b"
-  tags = {
-    Name = "PUBLIC-2"
-  }
-}
-resource "aws_subnet" "PRIVATE" {
-  vpc_id     = aws_vpc.CAPSTONE.id
-  cidr_block = "10.0.3.0/24"
-  availability_zone = "us-east-1c"
-  tags = {
-    Name = "PRIVATE"
-  }
-}
-resource "aws_route_table" "PUBLIC" {
-  vpc_id = aws_vpc.CAPSTONE.id
-  tags = {
-    Name = "PUBLIC"
-  }
-}
-resource "aws_route_table" "PRIVATE" {
-  vpc_id = aws_vpc.CAPSTONE.id
-    route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_nat_gateway.CAPSTONE.id
-  }
-  tags = {
-    Name = "PRIVATE"
-  }
-}
-resource "aws_route_table_association" "PUBLIC-1" {
-  subnet_id      = aws_subnet.PUBLIC-1.id
-  route_table_id = aws_route_table.PUBLIC.id
-}
-resource "aws_route_table_association" "PUBLIC-2" {
-  subnet_id      = aws_subnet.PUBLIC-2.id
-  route_table_id = aws_route_table.PUBLIC.id
-}
-resource "aws_route_table_association" "PRIVATE" {
-  subnet_id      = aws_subnet.PRIVATE.id
-  route_table_id = aws_route_table.PRIVATE.id
-}
-resource "aws_internet_gateway" "CAPSTONE" {
-  vpc_id = aws_vpc.CAPSTONE.id
-  tags = {
-    Name = "CAPSTONE"
-  }
-}
-resource "aws_route_table_association" "IG-ROUTE" {
-  gateway_id     = aws_internet_gateway.CAPSTONE.id
-  route_table_id = aws_route_table.PUBLIC.id
-}
-resource "aws_eip" "CAPSTONE" {
-  domain   = "vpc"
-  tags = {
-    Name = "CAPSTONE"
-  }
-}
-resource "aws_nat_gateway" "CAPSTONE" {
-  allocation_id = aws_eip.CAPSTONE.id
-  subnet_id     = aws_subnet.PUBLIC-1.id
-  tags = {
-    Name = "CAPSTONE"
-  }
-}
-
-resource "aws_security_group" "CAPSTONE" {
-  name        = "allow_tls"
-  description = "Allow TLS inbound traffic"
-  vpc_id      = aws_vpc.CAPSTONE.id
-
-  ingress {
-    description      = "TLS from VPC"
-    from_port        = 443
-    to_port          = 443
-    protocol         = "tcp"
-    cidr_blocks      = [aws_vpc.CAPSTONE.cidr_block]
-  }
-
-    ingress {
-    description      = "TLS from VPC"
-    from_port        = 80
-    to_port          = 80
-    protocol         = "tcp"
-    cidr_blocks      = [aws_vpc.CAPSTONE.cidr_block]
-  }
-
-    ingress {
-    description      = "TLS from VPC"
-    from_port        = 3000
-    to_port          = 3000
-    protocol         = "tcp"
-    cidr_blocks      = [aws_vpc.CAPSTONE.cidr_block]
-  }
-
-  egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-
-  tags = {
-    Name = "CAPSTONE"
-  }
-}
-resource "aws_key_pair" "CAPSTONE" {
-  key_name = "CAPSTONE"
-  public_key = file("~/.ssh/capstone.pub")
-}
-resource "aws_instance" "CAPSTONE" {
-  ami           = "ami-053b0d53c279acc90"
-  instance_type = "t2.micro"
-  vpc_security_group_ids = [aws_security_group.CAPSTONE.id]
-  subnet_id = aws_subnet.PRIVATE.id
-  key_name = aws_key_pair.CAPSTONE.key_name
-  tags = {
-    Name = "CAPSTONE"
-  }
-}
-output "private_ip" {
-  value = aws_instance.CAPSTONE.private_ip
-}
-output "public_ip" {
-  value = aws_instance.CAPSTONE.private_ip
+resource "aws_key_pair" "suraj" {
+  key_name   = "deployer-key"
+  public_key = "-----BEGIN RSA PRIVATE KEY-----
+MIIEogIBAAKCAQEArxaaJ7yFpYqNDWDXg/A+7rGVhj/WzeWgPDVLOoCCA749oyFc
++KAQwRlwOSnqjt6a7xWLmFyrSsSbuOGDhcYqzT0wd4YZi1hnkCRZISFBdcZELis5
+EeyEJkSfKmI4lvJlO0B0s8HoqAzk+W7naLUeVzCTQegPnulN0XqtKn+9wmw8+7en
+BFEURKfHI8pC597mCXIx07KarJR3Eiih9UiLSr16vNfAI74CbdI9GceIzPwFH/wO
+dMz5w6n0UJxir7+gw3OIP1Xfes17i1y12UTMbrSq1w6VYUMOHsHlOXfkWgno4rW9
+jjajYJG2ApILQBG+5oryG7Cadb+4yhEHNK1eNQIDAQABAoIBAECpzE0YpxM4VFe4
+iF/F/rgRBfQK574rLD6QQDRe+aWAQStaSwfXtdhbGMND48jYFchu4Jtovipi6lAh
+mX1ybqRWEOxTrmN0RutJQVGnApIIo22ZsP4Zp8SqW04/8D5vT0vOxksNNmu6N2aX
+uwdEvOvemMQifIJoD8Fp2UJ04xRGXjxyFUy4WZ9ScG9SSIj3+6agrjJBFTS8Rfiy
+5Fh2BMfbtJl3licXgnvp9PKBp45s2VWZoXKPlHSAosoHv6NzziQLsuqt7O819Vq+
+WkWhK+4XMJWYVMYX48liKkqcggto0iMJkVjmVZAdzlL/AR/xr4aw8XZokLXanVaR
+ZZrvl4ECgYEA/tBb6gFGmqVu3hi7G9yZj6outJHTG+dLSWnu1LYc4St6zdk+wvFf
+gRqzFwil2MoOfdEmsd8V3YDUBRmtLKolXN4GnSKhxONaXfSE9psWgY0dtZl27agw
+hVJvNpfw/IUnikFudfAncdmCK9ykUPhQ6L4afsGrDYiXQXLgODuW7VkCgYEAr+c9
+mOTxcmQTjkakHf+L21DKhlKB4BmWklZv5sPHNuZv2rzM0bgVjReXSqhaD5/h+zQQ
+Y9wPoI3rTpa7qdMi25xiT3B2bJzrQvsyvSCy3cd0Br9WpX9Q9a7bS4ok1LWsdEAa
+LSY/xznxDYDKReeaFsHBTDl3UtAvVBYX7huDUD0CgYBWCSP/rs6YCKOWeeMzVRjE
+WUHL1jDhiwbwksQBLjwyCuw79M4sJDOK8+jkLhdRS2f5M1VNWXWYhJcR4cmG+ywC
+XzT8eWUFhX5NmvIKEfNXar5NQrPVKqS3X04NsN+9Y3gmRlF1oNCwsDAzfxw7+pvW
++dkYU2vd9fCcOJ1cX0JmgQKBgGruh+OKSbzgWYMELoCN+Nc6JePCBHHXHFGZei0u
+lswpCZZPb7ON1IwQ60fXT+hvqVCsNcp+3IEdxQ3hU/PJBke6qYjhNRyRx/LQAeg3
+GIT52u6/Ik05OF4iDe297OXiCxQgY8lOlzblYkRzJoOYZ3OuFXPg+0i8hgj35VQ6
+JXmBAoGAWZ3ym0g50KhmC/Nvpwrh2BwcCpbynUsLEKs8GXmMGydIfehdWIWmhCX7
+4v8BbqAKL4Wb4QcF8pqbAE0pyfacaYcOwJue41xpwaH+3oSY7JC5xbgnegXNnOs7
+SjHU7gWqiWVLC5H6S67JvF7YgdRzU7YQL96XpdszqNcnv9rexik=
+-----END RSA PRIVATE KEY-----"
 }
