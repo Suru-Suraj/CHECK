@@ -1,6 +1,6 @@
 resource "aws_key_pair" "capstone" {
   key_name   = "capstone"
-  public_key = tls_private_key.CAPSTONE.public_key_openssh
+  public_key = tls_private_key.capstone.public_key_openssh
 }
 resource "tls_private_key" "capstone" {
   algorithm = "RSA"
