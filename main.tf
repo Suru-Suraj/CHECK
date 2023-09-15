@@ -216,20 +216,6 @@ resource "aws_lb_listener" "CAPSTONE" {
   }
 }
 
-# Create Load Balancer Listener Rule
-resource "aws_lb_listener_rule" "CAPSTONE" {
-  listener_arn = aws_lb_listener.CAPSTONE.arn
-  priority = 1
-  action {
-    type = "forward"
-    target_group_arn = aws_lb_target_group.CAPSTONE.arn
-  }
-  condition {
-    field = "host-header"
-    values = ["www.google.com"]
-  }
-}
-
 # Create a launch template
 resource "aws_launch_template" "CAPSTONE" {
   name_prefix   = "CAPSTONE"
@@ -253,5 +239,5 @@ resource "aws_autoscaling_group" "CAPSTONE" {
 # Attachement of autoscaling groups and target groups
 resource "aws_autoscaling_attachment" "example" {
   autoscaling_group_name = aws_autoscaling_group.CAPSTONE.id
-  lb_target_group_arn    = aws_lb_target_group.CASPTONE.arn
+  alb_target_group_arn    = aws_lb_target_group.CASPTONE.arn
 }
