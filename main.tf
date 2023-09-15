@@ -209,7 +209,7 @@ resource "aws_lb" "CAPSTONE" {
 resource "aws_lb_listener" "CAPSTONE" {
   load_balancer_arn = aws_lb.CAPSTONE.arn
   port = 3000
-  protocol = "TCP"
+  protocol = "HTTP"
   default_action {
     type = "forward"
     target_group_arn = aws_lb_target_group.CAPSTONE.arn
