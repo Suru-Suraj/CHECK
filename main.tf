@@ -239,5 +239,5 @@ resource "aws_autoscaling_group" "CAPSTONE" {
 # Attachement of autoscaling groups and target groups
 resource "aws_autoscaling_attachment" "example" {
   autoscaling_group_name = aws_autoscaling_group.CAPSTONE.id
-  alb_target_group_arn    = aws_lb_target_group.CASPTONE.arn
+  lb_target_group_arn    = aws_lb_target_group.CASPTONE.arn
 }
