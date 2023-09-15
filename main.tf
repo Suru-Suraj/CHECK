@@ -186,7 +186,7 @@ resource "aws_lb_target_group" "CAPSTONE" {
   name = "CAPSTONE"
   port = 3000
   protocol = "TCP"
-  vpc_id   = aws_vpc.main.id
+  vpc_id   = aws_vpc.CAPSTONE.id
 }
 
 # Attach the EC2 instance to the target group
