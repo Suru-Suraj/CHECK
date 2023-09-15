@@ -182,42 +182,40 @@ resource "aws_instance" "CAPSTONE" {
 }
 
 # Create a target group for the load balancer
-resource "aws_lb_target_group" "capstone" {
-  name = "capstone"
+resource "aws_lb_target_group" "CAPSTONE" {
+  name = "CAPSTONE"
   port = 3000
-  protocol = "HTTP"
+  protocol = "TCP"
   vpc_id = aws_vpc.capstone.id
-
-  health_check {
-    interval = 30
-    timeout = 5
-    path = "/"
-    protocol = "HTTP"
-  }
+  health_check_interval_seconds = 30
+  health_check_timeout_seconds = 5
+  unhealthy_threshold_count = 2
+  healthy_threshold_count = 10
 }
 # Attach the EC2 instance to the target group
-resource "aws_lb_target_group_attachment" "capstone" {
-  target_group_arn = aws_lb_target_group.capstone.arn
-  target_id = aws_instance.capstone.id
+resource "aws_lb_target_group_attachment" "CAPSTONE" {
+  target_group_arn = aws_lb_target_group.CAPSTONE.arn
+  target_id = aws_instance.CAPSTONE.id
   port = 3000
 }
 
 # Create a load balancer
-resource "aws_lb" "capstone" {
-  name = "capstone"
-  subnets = ["subnet-12345678", "subnet-98765432"]
-  security_groups = ["sg-12345678"]
+resource "aws_lb" "CAPSTONE" {
+  name = "CAPSTONE"
+  internal           = false
+  load_balancer_type = "application"
+  subnets = [aws_subnet.PUBLIC-1.id, aws_subnet.PUBLIC-2.id]
+  security_groups = [aws_security_group.CAPSTONE.id]
 }
 
 # Load Balancer Listener
-resource "aws_lb_listener" "capstone" {
-  load_balancer_arn = aws_lb.capstone.arn
+resource "aws_lb_listener" "CAPSTONE" {
+  load_balancer_arn = aws_lb.CAPSTONE.arn
   port = 80
   protocol = "HTTP"
-
   default_action {
-    target_group_arn = aws_lb_target_group.capstone.arn
     type = "forward"
+    target_group_arn = aws_lb_target_group.CAPSTONE.arn
   }
 }
 
