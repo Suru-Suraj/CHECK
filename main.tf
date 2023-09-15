@@ -185,7 +185,7 @@ resource "aws_instance" "CAPSTONE" {
 resource "aws_lb_target_group" "CAPSTONE" {
   name = "CAPSTONE"
   port = 3000
-  protocol = "TCP"
+  protocol = "HTTP"
   vpc_id   = aws_vpc.CAPSTONE.id
 }
 
