@@ -186,7 +186,7 @@ resource "aws_lb_target_group" "CAPSTONE" {
   name = "CAPSTONE"
   port = 3000
   protocol = "TCP"
-  vpc_id = aws_vpc.capstone.id
+  vpc_id = aws_vpc.CAPSTONE.id
   health_check_interval_seconds = 30
   health_check_timeout_seconds = 5
   unhealthy_threshold_count = 2
