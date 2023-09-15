@@ -184,14 +184,27 @@ resource "aws_instance" "CAPSTONE" {
 # Create a target group for the load balancer
 resource "aws_lb_target_group" "CAPSTONE" {
   name = "CAPSTONE"
-  port = 3000
-  protocol = "TCP"
-  vpc_id = aws_vpc.CAPSTONE.id
-  health_check_interval_seconds = 30
-  health_check_timeout_seconds = 5
-  unhealthy_threshold_count = 2
-  healthy_threshold_count = 10
+  port = 80
+  protocol = "HTTP"
 }
+
+# Create a target group listener rule
+resource "aws_lb_target_group_listener_rule" "CAPSTONE" {
+  listener_arn = aws_lb_listener.CAPSTONE.arn
+  priority = 1
+  action {
+    type = "forward"
+    target_group_arn = aws_lb_target_group.CAPSTONE.arn
+  }
+
+  health_check {
+    interval = 30
+    timeout = 5
+    unhealthy_threshold = 2
+    healthy_threshold = 10
+  }
+}
+
 # Attach the EC2 instance to the target group
 resource "aws_lb_target_group_attachment" "CAPSTONE" {
   target_group_arn = aws_lb_target_group.CAPSTONE.arn
