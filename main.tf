@@ -182,48 +182,42 @@ resource "aws_instance" "CAPSTONE" {
 }
 
 # Create a target group for the load balancer
-resource "aws_lb_target_group" "CAPSTONE" {
-  name     = "CAPSTONE"
-  port     = 3000
-  protocol = "TCP"
-  vpc_id   = aws_vpc.CAPSTONE.id
-}
+resource "aws_lb_target_group" "capstone" {
+  name = "capstone"
+  port = 3000
+  protocol = "HTTP"
+  vpc_id = aws_vpc.capstone.id
 
+  health_check {
+    interval = 30
+    timeout = 5
+    path = "/"
+    protocol = "HTTP"
+  }
+}
 # Attach the EC2 instance to the target group
-resource "aws_lb_target_group_attachment" "CAPSTONE" {
-  target_group_arn = aws_lb_target_group.CAPSTONE.arn
-  target_id        = aws_instance.CAPSTONE.id
-  port             = 3000
+resource "aws_lb_target_group_attachment" "capstone" {
+  target_group_arn = aws_lb_target_group.capstone.arn
+  target_id = aws_instance.capstone.id
+  port = 3000
 }
 
 # Create a load balancer
-resource "aws_elb" "CAPSTONE" {
-  name               = "CAPSTONE"
-  internal           = false
-  subnets = [aws_subnet.PUBLIC-1.id, aws_subnet.PUBLIC-2.id]
-  security_groups = [aws_security_group.CAPSTONE.id]
-  listener {
-    instance_port     = 3000
-    instance_protocol = "tcp"
-    lb_port           = 3000
-    lb_protocol       = "tcp"
-  }
-  health_check {
-    healthy_threshold   = 2
-    unhealthy_threshold = 2
-    timeout             = 3
-    target              = "TCP:3000"
-    interval            = 30
-  }
+resource "aws_lb" "capstone" {
+  name = "capstone"
+  subnets = ["subnet-12345678", "subnet-98765432"]
+  security_groups = ["sg-12345678"]
+}
 
-  instances                   = [aws_instance.CAPSTONE.id]
-  cross_zone_load_balancing   = true
-  idle_timeout                = 400
-  connection_draining         = true
-  connection_draining_timeout = 400
+# Load Balancer Listener
+resource "aws_lb_listener" "capstone" {
+  load_balancer_arn = aws_lb.capstone.arn
+  port = 80
+  protocol = "HTTP"
 
-  tags = {
-    Name = "CAPSTONE"
+  default_action {
+    target_group_arn = aws_lb_target_group.capstone.arn
+    type = "forward"
   }
 }
 
