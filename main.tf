@@ -1,8 +1,3 @@
-# Specify the AWS provider and region
-provider "aws" {
-  region = "us-east-1" # Replace with your desired AWS region
-}
-
 # Create the VPC
 resource "aws_vpc" "CAPSTONE" {
   cidr_block       = var.vpc_cidr_block
