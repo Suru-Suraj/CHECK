@@ -26,18 +26,17 @@ jobs:
         aws-region: us-east-1
     - name: Terraform Init
       run: terraform init
+      working-directory: 3.Autoscaling_and_LoadBalancing
     - name: Terraform Plan
       run: terraform plan
+      working-directory: 3.Autoscaling_and_LoadBalancing
     - name: Terraform Apply
       run: terraform apply -input=false -auto-approve 
-    - name: Terraform Apply
-      run: terraform destroy -auto-approve 
-    - name: ls
-      run: ls
-    - name: Commit and push files
-      run: |
-        git config user.name "GitHub Actions"
-        git config user.email "actions@github.com"
-        git add .
-        git commit -m "Add downloaded files"
-        git push origin main
+      working-directory: 3.Autoscaling_and_LoadBalancing
+    - name: Terraform Destroy
+      run: terraform destroy -auto-approve
+      working-directory: 3.Autoscaling_and_LoadBalancing
+      if: failure() || success()
+    - name: Terraform Output(Load Balancer DNS)
+      run: terraform output lb_dns
+      working-directory: 3.Autoscaling_and_LoadBalancing
