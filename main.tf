@@ -224,6 +224,10 @@ resource "aws_lb_listener_rule" "CAPSTONE" {
     type = "forward"
     target_group_arn = aws_lb_target_group.CAPSTONE.arn
   }
+  condition {
+    field = "host-header"
+    values = ["www.google.com"]
+  }
 }
 
 # Create a launch template
