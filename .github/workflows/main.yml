@@ -46,17 +46,17 @@ jobs:
       working-directory: STEP-1
     - name: Terraform Output public-ip
       run: |
-        export 1=$(terraform output -raw public_ip)
+        export public=$(terraform output -raw public_ip)
         terraform output -raw public_ip
       working-directory: STEP-1
     - name: Terraform Output private-ip
       run: |
-        export 2=$(terraform output -raw private_ip)
+        export private=$(terraform output -raw private_ip)
         terraform output -raw private_ip
       working-directory: STEP-1
     - name: Instance ID
       run: |
-        export 3=$(terraform output -raw instance_id)
+        export instance=$(terraform output -raw instance_id)
         terraform output -raw instance_id
       working-directory: STEP-1
     - name: Terraform Destroy
