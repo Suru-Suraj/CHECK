@@ -56,7 +56,7 @@ jobs:
       working-directory: STEP-1
     - name: Instance ID
       run: |
-        export instance=$(terraform output -raw instance_id)
+        export public\=</span>(terraform output -raw public_ip)
         terraform output -raw instance_id
       working-directory: STEP-1
     - name: Copy the file
