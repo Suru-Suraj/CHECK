@@ -9,8 +9,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: my-env
     steps:
     - uses: actions/checkout@v3
+
+    - name: Get public IP from Terraform
+      id: get-public-ip
+      run: |
+        terraform output -raw public_ip > $GITHUB_ENV.public_ip
+      working-directory: STEP-1
 
     - name: Use Node.js
       uses: actions/setup-node@v3
@@ -51,12 +58,11 @@ jobs:
 
     - name: Terraform Apply
       id: save_public_ip
-      run: |
-        terraform apply -auto-approve
-        terraform output -raw public_ip | echo "::set-env name=public_ip::$(cat)"
+      run: terraform apply -auto-approve
       working-directory: STEP-1
 
     - name: Create Ansible Inventory
+      needs: [get-public-ip]
       run: |
         echo "all:" >> ANSIBLE/inventory.yml
         echo "  hosts:" >> ANSIBLE/inventory.yml
