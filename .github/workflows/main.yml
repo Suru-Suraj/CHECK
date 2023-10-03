@@ -48,7 +48,11 @@ jobs:
       run: terraform output public_ip
       working-directory: STEP-1
     - name: Terraform Output(public)-private
-      run: terraform output private_ip
+      run: |
+        export PIP=$(terraform output private_ip)
+        terraform output private_ip
+        echo $(terraform output private_ip) >> 1.txt
+        cat 1.txt
       working-directory: STEP-1
     - name: Instance ID
       run: terraform output instance_id
