@@ -61,10 +61,10 @@ jobs:
       working-directory: STEP-1
     - name: Run playbook
       uses: dawidd6/action-ansible-playbook@v2
-    - name: Playbook
-      run: |
-        cd ANSIBLE
-        ansible-playbook -i inventory.yml playbook.yml
+      with:
+        playbook: ANSIBLE/playbook.yml
+        directory: ANSIBLE/
+        inventory: ANSIBLE/inventory.yml
       env:
         TERRAFORM_CLI_PATH: /home/runner/work/_temp/684d1336-9143-4fe2-880f-a0bd364942c3
         AWS_DEFAULT_REGION: us-east-1
