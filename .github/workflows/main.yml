@@ -52,6 +52,7 @@ jobs:
     - name: Terraform Apply
       id: save_public_ip
       run: |
+        terraform apply -auto-approve
         terraform output -raw public_ip | echo "::set-env name=public_ip::$(cat)"
       working-directory: STEP-1
 
