@@ -75,6 +75,8 @@ jobs:
       run: |
         cd ANSIBLE
         ansible-playbook -i inventory.yml playbook.yml
+      env: 
+        public: ${{ runner.vars.public }}
     - name: Terraform Destroy
       run: terraform destroy -auto-approve
       if: failure() || success()
