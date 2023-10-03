@@ -9,7 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
 
@@ -29,7 +28,7 @@ jobs:
         cd Application
         docker build -t surusuraj200021/suru:node .
 
-    - name: push to dockerhub
+    - name: push to Docker Hub
       run: docker push surusuraj200021/suru:node
 
     - name: Setup Terraform
@@ -53,7 +52,7 @@ jobs:
     - name: Terraform Apply
       id: save_public_ip
       run: |
-        terraform output -raw public_ip | set-state name=public_ip
+        terraform output -raw public_ip | echo "::set-env name=public_ip::$(cat)"
       working-directory: STEP-1
 
     - name: Create Ansible Inventory
@@ -61,7 +60,7 @@ jobs:
         echo "all:" >> ANSIBLE/inventory.yml
         echo "  hosts:" >> ANSIBLE/inventory.yml
         echo "    capstone:" >> ANSIBLE/inventory.yml
-        echo "      ansible_host: ${{ steps.save_public_ip.outputs.public_ip }}" >> ANSIBLE/inventory.yml
+        echo "      ansible_host: ${{ env.public_ip }}" >> ANSIBLE/inventory.yml
         echo "      ansible_user: ubuntu" >> ANSIBLE/inventory.yml
         echo "      ansible_ssh_private_key_file: capstone.pem" >> ANSIBLE/inventory.yml
 
