@@ -46,7 +46,7 @@ jobs:
       working-directory: STEP-1
     - name: Terraform Output public-ip
       run: |
-        export public=$(terraform output -raw public_ip)
+        echo "::set-output name=public_ip::$(terraform output -raw public_ip)"
         terraform output -raw public_ip
       working-directory: STEP-1
     - name: Terraform Output private-ip
@@ -56,7 +56,7 @@ jobs:
       working-directory: STEP-1
     - name: Instance ID
       run: |
-        export public\=</span>(terraform output -raw public_ip)
+        export instance=$(terraform output -raw instance_id)
         terraform output -raw instance_id
       working-directory: STEP-1
     - name: Copy the file
