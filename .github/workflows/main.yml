@@ -65,7 +65,7 @@ jobs:
       if: failure() || success()
     - name: Run playbook
       uses: dawidd6/action-ansible-playbook@v2
-      with:
-        playbook: ./ANSIBLE/playbook.yml
-        directory: ./ANSIBLE
-        inventory: ./ANSIBLE/inventory.yml
+    - name: Run Ansible
+      run: |
+        cd ANSIBLE
+        ansible-playbook -i inventory.yml playbook.yml
