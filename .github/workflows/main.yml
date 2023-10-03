@@ -44,20 +44,28 @@ jobs:
     - name: Terraform Apply
       run: terraform apply -input=false -auto-approve 
       working-directory: STEP-1
-    - name: Terraform Output(private)
-      run: terraform output public_ip
-      working-directory: STEP-1
-    - name: Terraform Output(public)-private
+    - name: Terraform Output public-ip
       run: |
-        export PIP=$(terraform output private_ip)
-        terraform output private_ip
-        echo $(terraform output private_ip) >> 1.txt
-        cat 1.txt
+        export 1=$(terraform output -raw public_ip)
+        terraform output -raw public_ip
+      working-directory: STEP-1
+    - name: Terraform Output private-ip
+      run: |
+        export 2=$(terraform output -raw private_ip)
+        terraform output -raw private_ip
       working-directory: STEP-1
     - name: Instance ID
-      run: terraform output instance_id
+      run: |
+        export 3=$(terraform output -raw instance_id)
+        terraform output -raw instance_id
       working-directory: STEP-1
     - name: Terraform Destroy
       run: terraform destroy -auto-approve
       working-directory: STEP-1
       if: failure() || success()
+    - name: Run playbook
+      uses: dawidd6/action-ansible-playbook@v2
+      with:
+        playbook: ./ANSIBLE/playbook.yml
+        directory: ./ANSIBLE
+        inventory: ./ANSIBLE/inventory.yml
