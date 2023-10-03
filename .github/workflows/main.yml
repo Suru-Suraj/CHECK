@@ -35,7 +35,7 @@ jobs:
         cd Application
         docker build -t surusuraj200021/suru:node .
 
-    - name: push to Docker Hub
+    - name: Push to Docker Hub
       run: docker push surusuraj200021/suru:node
 
     - name: Setup Terraform
@@ -62,7 +62,6 @@ jobs:
       working-directory: STEP-1
 
     - name: Create Ansible Inventory
-      needs: get-public-ip
       run: |
         echo "all:" >> ANSIBLE/inventory.yml
         echo "  hosts:" >> ANSIBLE/inventory.yml
