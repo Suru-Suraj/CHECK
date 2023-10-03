@@ -89,7 +89,7 @@ jobs:
       run: pip install ansible
 
     - name: Create Ansible Inventory
-      run: echo "all:\n  hosts:\n    capstone:\n      ansible_host:${{ steps.save_public_ip.outputs.public_ip }}\n      ansible_user: ubuntu\n      ansible_ssh_private_key_file: capstone.pem > ANSIBLE/inventory.yml
+      run: echo "all:\n  hosts:\n    capstone:\n      ansible_host:${{ steps.save_public_ip.outputs.public_ip }}\n      ansible_user: ubuntu\n      ansible_ssh_private_key_file: capstone.pem" > ANSIBLE/inventory.yml
 
     - name: Playbook
       run: |
