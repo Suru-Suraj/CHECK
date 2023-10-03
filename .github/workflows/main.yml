@@ -27,7 +27,7 @@ jobs:
         docker build -t surusuraj200021/suru:node .
     - name: push to dockerhub
       run: docker push surusuraj200021/suru:node
-      - name: Setup Terraform
+    - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v3
