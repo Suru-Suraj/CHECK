@@ -59,6 +59,12 @@ jobs:
         export instance=$(terraform output -raw instance_id)
         terraform output -raw instance_id
       working-directory: STEP-1
+    - name: Copy the file
+      run: |
+        cd STEP-1
+        chmod 400 capstone.pem
+        cd -
+        cp STEP-1/capstone.pem ANSIBLE/
     - name: Set up Python
       uses: actions/setup-python@v3
       with:
