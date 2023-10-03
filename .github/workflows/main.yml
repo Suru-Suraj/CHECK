@@ -44,10 +44,6 @@ jobs:
     - name: Terraform Apply
       run: terraform apply -input=false -auto-approve 
       working-directory: STEP-1
-    - name: Terraform Destroy
-      run: terraform destroy -auto-approve
-      working-directory: STEP-1
-      if: failure() || success()
     - name: Terraform Output(private)
       run: terraform output public_ip
       working-directory: STEP-1
@@ -57,3 +53,7 @@ jobs:
     - name: Instance ID
       run: terraform output instance_id
       working-directory: STEP-1
+    - name: Terraform Destroy
+      run: terraform destroy -auto-approve
+      working-directory: STEP-1
+      if: failure() || success()
