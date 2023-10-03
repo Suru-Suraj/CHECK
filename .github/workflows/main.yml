@@ -68,7 +68,7 @@ jobs:
     - name: Playbook
       run: |
         cd ANSIBLE
-        ansible-playbook -i inventory.yml playbbok.yml
+        ansible-playbook -i inventory.yml playbook.yml
     - name: Terraform Destroy
       run: terraform destroy -auto-approve
       if: failure() || success()
