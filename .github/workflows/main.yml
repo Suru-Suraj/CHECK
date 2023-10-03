@@ -53,12 +53,17 @@ jobs:
     - name: Terraform Apply
       id: save_public_ip
       run: |
-        echo "name=public_ip::value=$(terraform output -raw public_ip)" >> $GITHUB_STATE
+        terraform output -raw public_ip | set-state name=public_ip
       working-directory: STEP-1
 
     - name: Create Ansible Inventory
       run: |
-        echo "all:\n  hosts:\n    capstone:\n      ansible_host: ${{ steps.save-public-ip.outputs.public_ip }}\n      ansible_user: ubuntu\n      ansible_ssh_private_key_file: capstone.pem" > ANSIBLE/inventory.yml
+        echo "all:" >> ANSIBLE/inventory.yml
+        echo "  hosts:" >> ANSIBLE/inventory.yml
+        echo "    capstone:" >> ANSIBLE/inventory.yml
+        echo "      ansible_host: ${{ steps.save_public_ip.outputs.public_ip }}" >> ANSIBLE/inventory.yml
+        echo "      ansible_user: ubuntu" >> ANSIBLE/inventory.yml
+        echo "      ansible_ssh_private_key_file: capstone.pem" >> ANSIBLE/inventory.yml
 
     - name: Playbook
       run: |
