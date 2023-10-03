@@ -62,7 +62,7 @@ jobs:
       working-directory: STEP-1
 
     - name: Create Ansible Inventory
-      needs: [get-public-ip]
+      needs: get-public-ip
       run: |
         echo "all:" >> ANSIBLE/inventory.yml
         echo "  hosts:" >> ANSIBLE/inventory.yml
