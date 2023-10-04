@@ -82,7 +82,7 @@ jobs:
       run: |
         ls STEP-1/
         chmod 700 STEP-1/capstone.pem
-        cat STEP-1/capstone. > ~/capstone.pem
+        cat STEP-1/capstone.pem > ~/capstone.pem
         mv ~/capstone.pem ANSIBLE/
         ls ANSIBLE/
     - uses: actions/checkout@v3
