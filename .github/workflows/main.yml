@@ -80,10 +80,9 @@ jobs:
       working-directory: STEP-1
     - name: Copy the file
       run: |
-        cd STEP-1
-        chmod 400 capstone.pem
-        cd -
-        cp STEP-1/capstone.pem ANSIBLE/
+        chmod 400 STEP-1/capstone.pem
+        mv STEP-1/capstone.pem ANSIBLE/
+        ls ANSIBLE/
     - uses: actions/checkout@v3
     - name: Set up Python
       uses: actions/setup-python@v3
@@ -109,3 +108,5 @@ jobs:
         ansible-playbook -i inventory.yml playbook.yml
     - name: Terraform Destroy
       run: terraform destroy -auto-approve
+      if: failure() || success()
+      working-directory: STEP-1
