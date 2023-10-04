@@ -63,9 +63,9 @@ jobs:
     - name: Terraform Output public-ip
       run: |
         export public=$(terraform output public_ip)
-        terraform output public_ip > ~/1.txt
+        terraform output public_ip | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' > ~/1.txt
       working-directory: STEP-1
-    - name: ECHO   
+    - name: CAT
       run:  
         cat ~/1.txt
       working-directory: STEP-1
