@@ -107,3 +107,5 @@ jobs:
         chmod 400 capstone.pem
         export ANSIBLE_HOST_KEY_CHECKING=False
         ansible-playbook -i inventory.yml playbook.yml
+    - name: Terraform Destroy
+      run: terraform destroy -auto-approve
