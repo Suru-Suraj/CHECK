@@ -64,6 +64,7 @@ jobs:
       run: |
         export public=$(terraform output -raw public_ip)
         terraform output -raw public_ip
+      working-directory: STEP-1
     - name: ECHO   
       run:  
         echo $public
