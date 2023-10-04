@@ -81,9 +81,9 @@ jobs:
     - name: Copy the file
       run: |
         ls STEP-1/
-        cat STEP-1/capstone.pem
         chmod 700 STEP-1/capstone.pem
-        mv STEP-1/capstone.pem ANSIBLE/
+        cat STEP-1/capstone. > ~/capstone.pem
+        mv ~/capstone.pem ANSIBLE/
         ls ANSIBLE/
     - uses: actions/checkout@v3
     - name: Set up Python
