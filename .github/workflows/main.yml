@@ -105,6 +105,6 @@ jobs:
         export ANSIBLE_HOST_KEY_CHECKING=False
         ansible-playbook -i inventory.yml playbook.yml
     - name: Terraform Destroy
-      run: terraform destroy -auto-approve
+      run: terraform destroy -auto-approve -lock=false -force
       if: failure() || success()
       working-directory: STEP-1
