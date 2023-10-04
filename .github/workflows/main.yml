@@ -95,11 +95,12 @@ jobs:
         echo "      ansible_host: $public" >> ANSIBLE/inventory.yml
         echo "      ansible_user: ubuntu" >> ANSIBLE/inventory.yml
         echo "      ansible_ssh_private_key_file: capstone.pem" >> ANSIBLE/inventory.yml
+        cat ANSIBLE/inventor.yml
   
     - name: PING
       run: |
         cd ANSIBLE
-        ansible all -m ping -i inventory.yml
+        ansible all -m ping -i ANSIBLE/inventory.yml
 
     - name: Playbook
       run: |
