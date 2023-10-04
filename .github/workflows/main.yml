@@ -63,7 +63,7 @@ jobs:
     - name: Terraform Output public-ip
       run: |
         export public=$(terraform output -raw public_ip)
-        terraform output -raw public_ip > ~/1.txt
+        terraform output public_ip | sed 's/"//g' > ~/1.txt
       working-directory: STEP-1
     - name: ECHO   
       run:  
