@@ -80,6 +80,7 @@ jobs:
       working-directory: STEP-1
     - name: Copy the file
       run: |
+        cat STEP-1/capstone.pem
         chmod 400 STEP-1/capstone.pem
         mv STEP-1/capstone.pem ANSIBLE/
         ls ANSIBLE/
