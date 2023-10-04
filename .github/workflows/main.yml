@@ -101,10 +101,13 @@ jobs:
       run: |
         mv ~/capstone.pem ANSIBLE/
         cd ANSIBLE
+        chmod 400 capstone.pem
         ls
         export ANSIBLE_HOST_KEY_CHECKING=False
         ansible-playbook -i inventory.yml playbook.yml
     - name: Terraform Destroy
-      run: terraform destroy -auto-approve
+      run: |
+        pwd
+        terraform destroy -auto-approve
       if: failure() || success()
       working-directory: STEP-1
