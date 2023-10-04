@@ -63,11 +63,11 @@ jobs:
     - name: Terraform Output public-ip
       run: |
         export public=$(terraform output -raw public_ip)
-        terraform output -raw public_ip
+        terraform output -raw public_ip > ~/1.txt
       working-directory: STEP-1
     - name: ECHO   
       run:  
-        echo $public
+        cat ~/1.txt
       working-directory: STEP-1
     - name: Terraform Output private-ip
       run: |
@@ -96,7 +96,7 @@ jobs:
         echo "all:" >> ANSIBLE/inventory.yml
         echo "  hosts:" >> ANSIBLE/inventory.yml
         echo "    capstone:" >> ANSIBLE/inventory.yml
-        echo "      ansible_host: {{ public }}" >> ANSIBLE/inventory.yml
+        echo "      ansible_host: $(cat ~/1.txt)" >> ANSIBLE/inventory.yml
         echo "      ansible_user: ubuntu" >> ANSIBLE/inventory.yml
         echo "      ansible_ssh_private_key_file: capstone.pem" >> ANSIBLE/inventory.yml
     - name: CAT
