@@ -106,7 +106,6 @@ jobs:
         ansible-playbook -i inventory.yml playbook.yml
     - name: Terraform Destroy
       run: |
-        terraform init
         terraform destroy -auto-approve -lock=false
       if: failure() || success()
       working-directory: STEP-1
