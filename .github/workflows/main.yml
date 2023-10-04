@@ -58,12 +58,12 @@ jobs:
       id: get-public-ip
       run: |
         terraform output -raw public_ip > $GITHUB_ENV.public_ip
-        echo $GITHUB_ENV.public_ip
+        echo $public_ip
       working-directory: STEP-1
 
     - name: Terraform Output public-ip
       run: |
-        export public=$(terraform output public_ip)
+        export public=$(terraform output -raw public_ip)
         echo $public
       working-directory: STEP-1
     - name: Terraform Output private-ip
