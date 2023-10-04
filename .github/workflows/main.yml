@@ -94,12 +94,7 @@ jobs:
       run: pip install ansible
     - name: Create Ansible Inventory
       run: |
-        echo "all:" >> ANSIBLE/inventory.yml
-        echo "  hosts:" >> ANSIBLE/inventory.yml
-        echo "    capstone:" >> ANSIBLE/inventory.yml
-        echo "      ansible_host: $(cat ~/1.txt)" >> ANSIBLE/inventory.yml
-        echo "      ansible_user: ubuntu" >> ANSIBLE/inventory.yml
-        echo "      ansible_ssh_private_key_file: capstone.pem" >> ANSIBLE/inventory.yml
+        echo "CAPSTONE ansible_host=$(cat ~/1.txt) ansible_user=ubuntu ansible_ssh_private_key_file=capstone.pem" >> ANSIBLE/inventory.yml
     - name: CAT
       run: cat ANSIBLE/inventory.yml
     - name: Playbook
