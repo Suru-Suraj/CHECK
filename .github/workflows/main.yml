@@ -83,7 +83,7 @@ jobs:
         ls STEP-1/
         chmod 700 STEP-1/capstone.pem
         cat STEP-1/capstone.pem > ~/capstone.pem
-        mv ~/capstone.pem ANSIBLE/
+        cat ~/capstone.pem
         ls ANSIBLE/
     - uses: actions/checkout@v3
     - name: Set up Python
@@ -104,8 +104,9 @@ jobs:
       run: cat ANSIBLE/inventory.yml
     - name: Playbook
       run: |
+        mv ~/capstone.pem ANSIBLE/
         cd ANSIBLE
-        chmod 400 capstone.pem
+        ls
         export ANSIBLE_HOST_KEY_CHECKING=False
         ansible-playbook -i inventory.yml playbook.yml
     - name: Terraform Destroy
