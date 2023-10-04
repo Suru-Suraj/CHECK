@@ -63,8 +63,8 @@ jobs:
 
     - name: Terraform Output public-ip
       run: |
-        export public=$(terraform output -raw public_ip)
-        echo $public
+        terraform output -raw public_ip > ~/public
+        cat ~/public
       working-directory: STEP-1
     - name: Terraform Output private-ip
       run: |

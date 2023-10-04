@@ -1,1 +1,1 @@
-capstone ansible_host=$(echo $public) ansible_user=ubuntu ansible_ssh_private_key_file=capstone.pem
+capstone ansible_host=$(cat ~/public) ansible_user=ubuntu ansible_ssh_private_key_file=capstone.pem
