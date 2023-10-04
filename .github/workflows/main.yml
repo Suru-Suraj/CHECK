@@ -98,7 +98,7 @@ jobs:
       run: cat ANSIBLE/inventory.yml
     - name: Playbook
       run: |
-        mv ~/capstone.pem ANSIBLE/
+        cp ~/capstone.pem ANSIBLE/
         cd ANSIBLE
         chmod 400 capstone.pem
         ls
