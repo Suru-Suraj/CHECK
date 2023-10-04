@@ -93,7 +93,7 @@ jobs:
         echo "all:" >> ANSIBLE/inventory.yml
         echo "  hosts:" >> ANSIBLE/inventory.yml
         echo "    capstone:" >> ANSIBLE/inventory.yml
-        echo "      ansible_host: "{{ ansible_env.public }}"" >> ANSIBLE/inventory.yml
+        echo "      ansible_host: "$public"" >> ANSIBLE/inventory.yml
         echo "      ansible_user: ubuntu" >> ANSIBLE/inventory.yml
         echo "      ansible_ssh_private_key_file: capstone.pem" >> ANSIBLE/inventory.yml
     - name: CAT
